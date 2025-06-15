@@ -57,6 +57,8 @@ const Contact = () => {
                 </h3>
                 <a 
                   href="https://wa.me/923298842889" 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rm-purple hover:rm-dark-purple transition-colors"
                 >
                   +92 329 8842889
@@ -138,7 +140,7 @@ const Contact = () => {
             </p>
             <div className="flex justify-center space-x-6">
               <a 
-                href="https://www.facebook.com/rangmahal" 
+                href="https://www.facebook.com/share/1CC5ha45EZ/?mibextid=wwXIfr" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="rm-purple hover:rm-dark-purple transition-colors"
@@ -146,7 +148,7 @@ const Contact = () => {
                 <span className="text-lg font-medium">Facebook</span>
               </a>
               <a 
-                href="https://www.instagram.com/rangmahal.rm" 
+                href="https://www.instagram.com/rangmahal.rm?igsh=MXBvNGp2N3MzNXY3YQ%3D%3D&utm_source=qr" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="rm-purple hover:rm-dark-purple transition-colors"
@@ -154,7 +156,7 @@ const Contact = () => {
                 <span className="text-lg font-medium">Instagram</span>
               </a>
               <a 
-                href="https://www.tiktok.com/@rangmahal.rm" 
+                href="https://www.tiktok.com/@rangmahal.rm?_t=ZS-8xCwnl9snnk&_r=1" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="rm-purple hover:rm-dark-purple transition-colors"

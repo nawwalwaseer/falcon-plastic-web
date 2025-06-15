@@ -25,7 +25,7 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a 
-                href="https://www.facebook.com/rangmahal" 
+                href="https://www.facebook.com/share/1CC5ha45EZ/?mibextid=wwXIfr" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
@@ -33,7 +33,7 @@ const Footer = () => {
                 <Facebook className="h-6 w-6" />
               </a>
               <a 
-                href="https://www.instagram.com/rangmahal.rm" 
+                href="https://www.instagram.com/rangmahal.rm?igsh=MXBvNGp2N3MzNXY3YQ%3D%3D&utm_source=qr" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
@@ -41,7 +41,7 @@ const Footer = () => {
                 <Instagram className="h-6 w-6" />
               </a>
               <a 
-                href="https://www.tiktok.com/@rangmahal.rm" 
+                href="https://www.tiktok.com/@rangmahal.rm?_t=ZS-8xCwnl9snnk&_r=1" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
@@ -73,6 +73,8 @@ const Footer = () => {
                 <Phone className="h-4 w-4 rm-light-pink" />
                 <a 
                   href="https://wa.me/923298842889" 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   +92 329 8842889
