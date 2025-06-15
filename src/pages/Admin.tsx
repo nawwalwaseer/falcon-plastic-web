@@ -8,13 +8,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Package, Users, ShoppingCart, Plus, Upload, X } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { useCategories, useCreateProduct, useProducts } from '@/hooks/useProducts';
+import { useToast } from '@/hooks/use-toast';
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  
+  // Form state
+  const [productName, setProductName] = useState('');
+  const [productPrice, setProductPrice] = useState('');
+  const [productDescription, setProductDescription] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [productColors, setProductColors] = useState('');
 
-  const categories = ['Plain Choori', 'Bridal Sets', 'Party Wears'];
+  const { data: categories = [] } = useCategories();
+  const { data: products = [] } = useProducts();
+  const createProduct = useCreateProduct();
+  const { toast } = useToast();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -33,8 +45,47 @@ const Admin = () => {
     setImagePreview(null);
   };
 
+  const handleSaveProduct = async () => {
+    if (!productName || !productPrice || !selectedCategory) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const colorsArray = productColors
+      .split(',')
+      .map(color => color.trim())
+      .filter(color => color.length > 0);
+
+    try {
+      await createProduct.mutateAsync({
+        name: productName,
+        description: productDescription,
+        price: parseFloat(productPrice),
+        category_id: selectedCategory,
+        colors: colorsArray,
+        image_url: imagePreview, // For now using base64, you can implement proper file upload later
+        stock_quantity: 100, // Default stock
+        is_active: true,
+      });
+
+      // Reset form
+      setProductName('');
+      setProductPrice('');
+      setProductDescription('');
+      setSelectedCategory('');
+      setProductColors('');
+      removeImage();
+    } catch (error) {
+      console.error('Error saving product:', error);
+    }
+  };
+
   const stats = [
-    { title: 'Total Products', value: '24', icon: Package, color: 'bg-rm-pink' },
+    { title: 'Total Products', value: products.length.toString(), icon: Package, color: 'bg-rm-pink' },
     { title: 'Total Orders', value: '156', icon: ShoppingCart, color: 'bg-rm-purple' },
     { title: 'Customers', value: '89', icon: Users, color: 'bg-rm-blue' },
   ];
@@ -97,27 +148,20 @@ const Admin = () => {
             <Card>
               <CardContent className="p-6">
                 <h2 className="text-xl font-semibold rm-dark-purple mb-4">
-                  Recent Orders
+                  Recent Products
                 </h2>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                    <div>
-                      <p className="font-medium">Order #001</p>
-                      <p className="text-sm text-gray-600">Ayesha Khan - Rs. 2,500</p>
+                  {products.slice(0, 3).map((product) => (
+                    <div key={product.id} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                      <div>
+                        <p className="font-medium">{product.name}</p>
+                        <p className="text-sm text-gray-600">Rs. {product.price.toLocaleString()}</p>
+                      </div>
+                      <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                        Active
+                      </span>
                     </div>
-                    <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                      Completed
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                    <div>
-                      <p className="font-medium">Order #002</p>
-                      <p className="text-sm text-gray-600">Fatima Ali - Rs. 8,500</p>
-                    </div>
-                    <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
-                      Pending
-                    </span>
-                  </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -140,18 +184,34 @@ const Admin = () => {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="product-name">Product Name</Label>
-                      <Input id="product-name" placeholder="Enter product name" />
+                      <Label htmlFor="product-name">Product Name *</Label>
+                      <Input 
+                        id="product-name" 
+                        placeholder="Enter product name"
+                        value={productName}
+                        onChange={(e) => setProductName(e.target.value)}
+                      />
                     </div>
                     <div>
-                      <Label htmlFor="product-price">Price</Label>
-                      <Input id="product-price" type="number" placeholder="Enter price" />
+                      <Label htmlFor="product-price">Price *</Label>
+                      <Input 
+                        id="product-price" 
+                        type="number" 
+                        placeholder="Enter price"
+                        value={productPrice}
+                        onChange={(e) => setProductPrice(e.target.value)}
+                      />
                     </div>
                   </div>
                   
                   <div>
                     <Label htmlFor="product-description">Description</Label>
-                    <Textarea id="product-description" placeholder="Enter product description" />
+                    <Textarea 
+                      id="product-description" 
+                      placeholder="Enter product description"
+                      value={productDescription}
+                      onChange={(e) => setProductDescription(e.target.value)}
+                    />
                   </div>
                   
                   {/* Image Upload Section */}
@@ -202,15 +262,15 @@ const Admin = () => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="product-category">Category</Label>
-                      <Select>
+                      <Label htmlFor="product-category">Category *</Label>
+                      <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                         <SelectContent>
                           {categories.map((category) => (
-                            <SelectItem key={category} value={category.toLowerCase().replace(' ', '-')}>
-                              {category}
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.name}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -218,13 +278,45 @@ const Admin = () => {
                     </div>
                     <div>
                       <Label htmlFor="product-colors">Available Colors</Label>
-                      <Input id="product-colors" placeholder="Enter colors (comma separated)" />
+                      <Input 
+                        id="product-colors" 
+                        placeholder="Enter colors (comma separated)"
+                        value={productColors}
+                        onChange={(e) => setProductColors(e.target.value)}
+                      />
                     </div>
                   </div>
                   
-                  <Button className="bg-rm-purple hover:bg-rm-dark-purple text-white">
-                    Save Product
+                  <Button 
+                    className="bg-rm-purple hover:bg-rm-dark-purple text-white"
+                    onClick={handleSaveProduct}
+                    disabled={createProduct.isPending}
+                  >
+                    {createProduct.isPending ? 'Saving...' : 'Save Product'}
                   </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Product List */}
+            <Card className="mt-8">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold rm-dark-purple mb-4">Current Products</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {products.map((product) => (
+                    <div key={product.id} className="border rounded-lg p-4">
+                      {product.image_url && (
+                        <img
+                          src={product.image_url}
+                          alt={product.name}
+                          className="w-full h-32 object-cover rounded mb-2"
+                        />
+                      )}
+                      <h4 className="font-medium">{product.name}</h4>
+                      <p className="text-sm text-gray-600">Rs. {product.price.toLocaleString()}</p>
+                      <p className="text-xs text-gray-500">{product.categories?.name}</p>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
