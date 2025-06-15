@@ -14,12 +14,12 @@ const Contact = () => {
       <section 
         className="relative h-96 flex items-center justify-center bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(139, 69, 19, 0.8), rgba(139, 69, 19, 0.8)), url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1573408301185-9146fe634ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
         }}
       >
-        <div className="text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl">Get in touch for all your bangle needs</p>
+        <div className="text-center text-white max-w-4xl mx-auto px-4 animate-fade-in">
+          <h1 className="text-5xl font-display font-bold mb-4">Contact Us</h1>
+          <p className="text-xl rm-light-pink">Get in touch for all your bangle needs</p>
         </div>
       </section>
 
@@ -27,7 +27,7 @@ const Contact = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold rm-dark-purple mb-4">
+            <h2 className="text-4xl font-display font-bold rm-dark-purple mb-4">
               Let's Connect
             </h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto">
@@ -36,9 +36,11 @@ const Contact = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            <Card className="text-center hover:shadow-lg transition-shadow duration-300">
+            <Card className="text-center group hover:shadow-xl transition-all duration-300 animate-scale-in">
               <CardContent className="p-8">
-                <MapPin className="h-12 w-12 text-rm-gold mx-auto mb-4" />
+                <div className="bg-rm-gradient p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <MapPin className="h-8 w-8 text-white" />
+                </div>
                 <h3 className="text-xl font-semibold rm-dark-purple mb-3">
                   Location
                 </h3>
@@ -49,9 +51,11 @@ const Contact = () => {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow duration-300">
+            <Card className="text-center group hover:shadow-xl transition-all duration-300 animate-scale-in">
               <CardContent className="p-8">
-                <Phone className="h-12 w-12 text-rm-gold mx-auto mb-4" />
+                <div className="bg-rm-gradient p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <Phone className="h-8 w-8 text-white" />
+                </div>
                 <h3 className="text-xl font-semibold rm-dark-purple mb-3">
                   WhatsApp
                 </h3>
@@ -66,9 +70,11 @@ const Contact = () => {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow duration-300">
+            <Card className="text-center group hover:shadow-xl transition-all duration-300 animate-scale-in">
               <CardContent className="p-8">
-                <Mail className="h-12 w-12 text-rm-gold mx-auto mb-4" />
+                <div className="bg-rm-gradient p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <Mail className="h-8 w-8 text-white" />
+                </div>
                 <h3 className="text-xl font-semibold rm-dark-purple mb-3">
                   Email
                 </h3>
@@ -81,9 +87,11 @@ const Contact = () => {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow duration-300">
+            <Card className="text-center group hover:shadow-xl transition-all duration-300 animate-scale-in">
               <CardContent className="p-8">
-                <Clock className="h-12 w-12 text-rm-gold mx-auto mb-4" />
+                <div className="bg-rm-gradient p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <Clock className="h-8 w-8 text-white" />
+                </div>
                 <h3 className="text-xl font-semibold rm-dark-purple mb-3">
                   Business Hours
                 </h3>
@@ -98,7 +106,7 @@ const Contact = () => {
           {/* Contact Person */}
           <div className="bg-rm-light-pink/10 rounded-lg p-8 mb-16">
             <div className="text-center">
-              <h3 className="text-2xl font-bold rm-dark-purple mb-4">
+              <h3 className="text-2xl font-display font-bold rm-dark-purple mb-4">
                 Get In Touch
               </h3>
               <div className="max-w-md mx-auto">
@@ -131,8 +139,8 @@ const Contact = () => {
           </div>
 
           {/* Social Media Section */}
-          <div className="bg-gray-100 rounded-lg p-8 text-center">
-            <h3 className="text-2xl font-bold rm-dark-purple mb-4">
+          <div className="bg-rm-light-pink/10 rounded-lg p-8 text-center">
+            <h3 className="text-2xl font-display font-bold rm-dark-purple mb-4">
               Follow Us on Social Media
             </h3>
             <p className="text-gray-700 mb-6">
@@ -143,25 +151,25 @@ const Contact = () => {
                 href="https://www.facebook.com/share/1CC5ha45EZ/?mibextid=wwXIfr" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="rm-purple hover:rm-dark-purple transition-colors"
+                className="bg-rm-gradient text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium"
               >
-                <span className="text-lg font-medium">Facebook</span>
+                Facebook
               </a>
               <a 
                 href="https://www.instagram.com/rangmahal.rm?igsh=MXBvNGp2N3MzNXY3YQ%3D%3D&utm_source=qr" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="rm-purple hover:rm-dark-purple transition-colors"
+                className="bg-rm-gradient text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium"
               >
-                <span className="text-lg font-medium">Instagram</span>
+                Instagram
               </a>
               <a 
                 href="https://www.tiktok.com/@rangmahal.rm?_t=ZS-8xCwnl9snnk&_r=1" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="rm-purple hover:rm-dark-purple transition-colors"
+                className="bg-rm-gradient text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium"
               >
-                <span className="text-lg font-medium">TikTok</span>
+                TikTok
               </a>
             </div>
           </div>
@@ -169,21 +177,19 @@ const Contact = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-rm-purple text-white">
+      <section className="py-20 bg-rm-gradient text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">
+          <h2 className="text-4xl font-display font-bold mb-6">
             Ready to Find Your Perfect Bangles?
           </h2>
           <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
             Don't wait - browse our collection today and discover the beauty 
             that awaits you at Rang Mahal.
           </p>
-          <a 
-            href="/shop"
-          >
-            <Button size="lg" variant="secondary" className="bg-white text-rm-purple hover:bg-gray-100">
+          <a href="/shop">
+            <button className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg rounded-md font-semibold transition-colors duration-200">
               Browse Collection
-            </Button>
+            </button>
           </a>
         </div>
       </section>
