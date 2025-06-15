@@ -1,35 +1,43 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ShoppingCart, Heart, User } from 'lucide-react';
+import { useCart } from '../hooks/useCart';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { cartItems } = useCart();
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Products', path: '/products' },
+    { name: 'Shop', path: '/shop' },
+    { name: 'Categories', path: '/categories' },
+    { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
 
+  const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
             <img 
-              src="/lovable-uploads/553f0fdb-33fc-4d52-9d60-0d9fa820291f.png" 
-              alt="Falcon Plastic Industries" 
-              className="h-10 w-10"
+              src="/lovable-uploads/cd38c5c4-91d9-44db-aa69-4d39ac26bf3f.png" 
+              alt="Rang Mahal" 
+              className="h-10 w-10 object-contain"
             />
-            <span className="text-xl font-bold text-falcon-dark-blue">
-              Falcon Plastic Industries
-            </span>
+            <div>
+              <span className="text-xl font-display font-semibold rm-dark-purple">
+                Rang Mahal
+              </span>
+              <p className="text-xs rm-purple font-medium">It's all about colors</p>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -40,28 +48,49 @@ const Navigation = () => {
                 to={item.path}
                 className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
                   isActive(item.path)
-                    ? 'text-falcon-blue border-b-2 border-falcon-blue'
-                    : 'text-gray-700 hover:text-falcon-blue'
+                    ? 'rm-pink border-b-2 border-current'
+                    : 'text-gray-700 hover:rm-purple'
                 }`}
               >
                 {item.name}
               </Link>
             ))}
-            <a
-              href="https://wa.me/923218855277"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-falcon-blue text-white px-6 py-2 rounded-lg hover:bg-falcon-dark-blue transition-colors duration-200"
-            >
-              Get in Touch
-            </a>
+            
+            {/* Action Icons */}
+            <div className="flex items-center space-x-4">
+              <Link to="/wishlist" className="text-gray-700 hover:rm-pink transition-colors">
+                <Heart className="h-5 w-5" />
+              </Link>
+              
+              <Link to="/cart" className="relative text-gray-700 hover:rm-pink transition-colors">
+                <ShoppingCart className="h-5 w-5" />
+                {cartItemsCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-rm-pink text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </Link>
+              
+              <Link to="/admin" className="text-gray-700 hover:rm-pink transition-colors">
+                <User className="h-5 w-5" />
+              </Link>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center space-x-4">
+            <Link to="/cart" className="relative text-gray-700">
+              <ShoppingCart className="h-5 w-5" />
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-rm-pink text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                  {cartItemsCount}
+                </span>
+              )}
+            </Link>
+            
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-falcon-blue"
+              className="text-gray-700 hover:rm-purple"
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -83,21 +112,30 @@ const Navigation = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={`block px-3 py-2 text-base font-medium transition-colors duration-200 ${
                     isActive(item.path)
-                      ? 'text-falcon-blue bg-falcon-light-blue/10'
-                      : 'text-gray-700 hover:text-falcon-blue hover:bg-gray-50'
+                      ? 'rm-pink bg-rm-light-pink/10'
+                      : 'text-gray-700 hover:rm-purple hover:bg-gray-50'
                   }`}
                 >
                   {item.name}
                 </Link>
               ))}
-              <a
-                href="https://wa.me/923218855277"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full text-center bg-falcon-blue text-white px-6 py-2 rounded-lg hover:bg-falcon-dark-blue transition-colors duration-200 mt-4"
-              >
-                Get in Touch
-              </a>
+              
+              <div className="border-t pt-4 pb-2">
+                <Link
+                  to="/wishlist"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-3 py-2 text-base font-medium text-gray-700 hover:rm-purple"
+                >
+                  Wishlist
+                </Link>
+                <Link
+                  to="/admin"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-3 py-2 text-base font-medium text-gray-700 hover:rm-purple"
+                >
+                  Admin Panel
+                </Link>
+              </div>
             </div>
           </div>
         )}
