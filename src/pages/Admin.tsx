@@ -1,16 +1,37 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Package, Users, ShoppingCart, Plus } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Package, Users, ShoppingCart, Plus, Upload, X } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const categories = ['Plain Choori', 'Bridal Sets', 'Party Wears'];
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
+  };
 
   const stats = [
     { title: 'Total Products', value: '24', icon: Package, color: 'bg-rm-pink' },
@@ -133,10 +154,67 @@ const Admin = () => {
                     <Textarea id="product-description" placeholder="Enter product description" />
                   </div>
                   
+                  {/* Image Upload Section */}
+                  <div>
+                    <Label htmlFor="product-image">Product Image</Label>
+                    <div className="mt-2">
+                      {!imagePreview ? (
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-rm-pink transition-colors">
+                          <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
+                          <p className="text-sm text-gray-600 mb-2">Click to upload or drag and drop</p>
+                          <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                          <Input
+                            id="product-image"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="hidden"
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            className="mt-2"
+                            onClick={() => document.getElementById('product-image')?.click()}
+                          >
+                            Choose File
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="relative">
+                          <img
+                            src={imagePreview}
+                            alt="Product preview"
+                            className="w-full h-48 object-cover rounded-lg"
+                          />
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            onClick={removeImage}
+                            className="absolute top-2 right-2"
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="product-category">Category</Label>
-                      <Input id="product-category" placeholder="Enter category" />
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {categories.map((category) => (
+                            <SelectItem key={category} value={category.toLowerCase().replace(' ', '-')}>
+                              {category}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div>
                       <Label htmlFor="product-colors">Available Colors</Label>
